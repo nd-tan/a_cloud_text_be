@@ -47,6 +47,7 @@ class ContractorController extends Controller
         }
 
         $contractor = Contractor::query()->select(
+                    'id',
                     'name',
                     'state',
                     'start_date',
