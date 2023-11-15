@@ -94,7 +94,7 @@ class ContractorController extends Controller
         if (is_null($contractor)) {
             return $this->responseError('not_found');
         }
-        return $this->responseSuccess(['contractor' => $contractor]);
+        return $this->responseSuccess($contractor);
     }
 
     /**
