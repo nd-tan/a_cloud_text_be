@@ -79,6 +79,7 @@ class GroupController extends Controller
             'contractors.person',
             'contractors.remark',
             'groups.id as group_id',
+            'groups.group_id as group_parent_id',
             'groups.name as group_name',
         )
             ->leftJoin('groups', 'contractors.id', '=', 'groups.contractor_id')
@@ -102,27 +103,29 @@ class GroupController extends Controller
                     'groups' => [],
                 ];
             }
-
-            if (!empty($contractor['group_id'])) {
-                $groupId = $contractor['group_id'];
-
-                if (!isset($groupedData[$contractorId]['groups'][$groupId])) {
-                    $groupedData[$contractorId]['groups'][$groupId] = [
-                        'group_id' => $contractor['group_id'],
-                        'group_name' => $contractor['group_name'],
-                        'subgroups' => [],
+            $groupParentId = $contractor['group_parent_id'];
+            if(!is_null($groupParentId)){
+                if (!isset($groupedData[$contractorId]['groups'][$groupParentId])) {
+                    $group = Group::find($groupParentId);
+                    $groupedData[$contractorId]['groups'][$groupParentId] = [
+                        'group_id' => $group->id,
+                        'group_name' =>  $group->name,
+                        'child_group' => [
+                            [
+                                'group_id' => $contractor['group_id'],
+                                'group_name' =>  $contractor['group_name'],
+                            ]
+                        ],
                     ];
                 }
-
-                if (!empty($contractor['subgroup_id'])) {
-                    $subgroupId = $contractor['subgroup_id'];
-
-                    if (!isset($groupedData[$contractorId]['groups'][$groupId]['subgroups'][$subgroupId])) {
-                        $groupedData[$contractorId]['groups'][$groupId]['subgroups'][$subgroupId] = [
-                            'subgroup_id' => $contractor['subgroup_id'],
-                            'subgroup_name' => $contractor['subgroup_name'],
-                        ];
-                    }
+            } else {
+                if (!isset($groupedData[$contractorId]['groups'][$groupParentId]) && isset($contractor['group_id'])) {
+                    $child = [
+                        'group_id' => $contractor['group_id'],
+                        'group_name' =>  $contractor['group_name'],
+                        'child_group' => []
+                    ];
+                    array_push($groupedData[$contractorId]['groups'],$child);
                 }
             }
         }
