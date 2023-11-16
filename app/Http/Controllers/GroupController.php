@@ -5,10 +5,11 @@ namespace App\Http\Controllers;
 use App\Models\Contractor;
 use App\Models\Group;
 use Illuminate\Http\Request;
+use Mockery\Undefined;
 
 class GroupController extends Controller
 {
-       /**
+    /**
      * Display a listing of the resource.
      */
     public function index(Request $request)
@@ -23,7 +24,7 @@ class GroupController extends Controller
         return $this->responseSuccess($result);
     }
 
-     /**
+    /**
      * Get all and sort group
      *
      * @param  mixed $values
@@ -34,38 +35,39 @@ class GroupController extends Controller
         $order = $data['order'];
         $column = $data['column'];
 
-        if(is_null($column) || ! in_array($column, ['name', 'state', 'start_date', 'end_date'])){
+        if (is_null($column) || !in_array($column, ['name', 'state', 'start_date', 'end_date'])) {
             $column = 'id';
         }
 
-        if (! in_array($order, ["asc", "desc"])) {
+        if (!in_array($order, ["asc", "desc"])) {
             $order = "desc";
         }
 
         $size = $data['size'];
-        if (! is_numeric($size)) {
+        if (!is_numeric($size)) {
             $size = 10;
         }
 
         $group = Group::query()->select(
-                    'id',
-                    'name',
-                    'state',
-                    'start_date',
-                    'end_date',
-                    'address',
-                    'phone_number',
-                    'person',
-                    'remark')
+            'id',
+            'name',
+            'state',
+            'start_date',
+            'end_date',
+            'address',
+            'phone_number',
+            'person',
+            'remark'
+        )
             ->orderBy($column, $order);
 
         $data = $group->paginate($size);
 
         return $data;
-
     }
 
-    public function contractorAll(){
+    public function contractorAll()
+    {
         $contractors = Contractor::select(
             'contractors.id',
             'contractors.name',
@@ -79,13 +81,13 @@ class GroupController extends Controller
             'groups.id as group_id',
             'groups.name as group_name',
         )
-        ->leftJoin('groups', 'contractors.id', '=', 'groups.contractor_id')
-        ->orderBy("contractors.id", "desc")
-        ->get();
+            ->leftJoin('groups', 'contractors.id', '=', 'groups.contractor_id')
+            ->orderBy("contractors.id", "desc")
+            ->get();
         $groupedData = [];
         foreach ($contractors as $contractor) {
             $contractorId = $contractor['id'];
-    
+
             if (!isset($groupedData[$contractorId])) {
                 $groupedData[$contractorId] = [
                     'id' => $contractor['id'],
@@ -100,10 +102,10 @@ class GroupController extends Controller
                     'groups' => [],
                 ];
             }
-    
+
             if (!empty($contractor['group_id'])) {
                 $groupId = $contractor['group_id'];
-    
+
                 if (!isset($groupedData[$contractorId]['groups'][$groupId])) {
                     $groupedData[$contractorId]['groups'][$groupId] = [
                         'group_id' => $contractor['group_id'],
@@ -111,10 +113,10 @@ class GroupController extends Controller
                         'subgroups' => [],
                     ];
                 }
-    
+
                 if (!empty($contractor['subgroup_id'])) {
                     $subgroupId = $contractor['subgroup_id'];
-    
+
                     if (!isset($groupedData[$contractorId]['groups'][$groupId]['subgroups'][$subgroupId])) {
                         $groupedData[$contractorId]['groups'][$groupId]['subgroups'][$subgroupId] = [
                             'subgroup_id' => $contractor['subgroup_id'],
@@ -124,11 +126,47 @@ class GroupController extends Controller
                 }
             }
         }
-    
+
         $result = array_values($groupedData);
-    
+
         return $result;
     }
+
+    public function contractorGroup(Request $request)
+    {
+        $contractorId = $request->get('contractorId');
+        $contractorgroupId = $request->get('contractorgroupId');
+
+        if ($contractorId == 'undefined') {
+            return $this->responseError('Contractor ID is required', 400);
+        }
+
+        $query = Contractor::where('contractors.id', $contractorId)->select(
+            'contractors.id as contractor_id',
+            'contractors.name as contractor_name',
+        );;
+
+        if ($contractorgroupId != 'undefined') {
+            $query->leftJoin('groups', 'contractors.id', '=', 'groups.contractor_id')
+                ->where('groups.id', $contractorgroupId)
+                ->select(
+                    'groups.id as group_id',
+                    'groups.name as group_name',
+                    'contractors.id as contractor_id',
+                    'contractors.name as contractor_name',
+                );
+        }
+
+        $data = $query->first();
+
+        if (!$data) {
+            return $this->responseError('Data not found', 404);
+        }
+
+        return $this->responseSuccess($data);
+    }
+
+
 
     /**
      * Store a newly created resource in storage.
@@ -136,14 +174,22 @@ class GroupController extends Controller
     public function store(Request $request)
     {
         $data = $request->only([
+            'group_id',
+            'contractor_id',
             'name',
-            'postal_code',
-            'address',
-            'phone_number',
-            'person',
-            'logo',
-            'start_date',
-            'end_date',
+            'path',
+            'info_board',
+            'latitude',
+            'longitude',
+            'group_week',
+            'group_start_time',
+            'group_end_time',
+            'break_start_time1',
+            'break_end_time1',
+            'break_start_time2',
+            'break_end_time2',
+            'break_start_time3',
+            'break_end_time3',
             'remark',
         ]);
         $group = new Group();
@@ -192,7 +238,7 @@ class GroupController extends Controller
      */
     public function destroy($id)
     {
-        $group = Group::findOrFail($id);  
+        $group = Group::findOrFail($id);
         $group->delete();
         return $this->responseSuccess(true);
     }
