@@ -83,7 +83,7 @@ class GroupController extends Controller
             'groups.name as group_name',
         )
             ->leftJoin('groups', 'contractors.id', '=', 'groups.contractor_id')
-            ->orderBy("contractors.id", "desc")
+            ->orderBy("contractors.id", "asc")
             ->get();
         $groupedData = [];
         foreach ($contractors as $contractor) {
@@ -104,6 +104,7 @@ class GroupController extends Controller
                 ];
             }
             $groupParentId = $contractor['group_parent_id'];
+            $groupId = $contractor['group_id'];
             if(!is_null($groupParentId)){
                 if (!isset($groupedData[$contractorId]['groups'][$groupParentId])) {
                     $group = Group::find($groupParentId);
@@ -119,7 +120,7 @@ class GroupController extends Controller
                     ];
                 }
             } else {
-                if (!isset($groupedData[$contractorId]['groups'][$groupParentId]) && isset($contractor['group_id'])) {
+                if (!isset($groupedData[$contractorId]['groups'][$groupId]) && isset($contractor['group_id'])) {
                     $child = [
                         'group_id' => $contractor['group_id'],
                         'group_name' =>  $contractor['group_name'],
@@ -130,7 +131,7 @@ class GroupController extends Controller
             }
         }
 
-        $result = array_values($groupedData);
+        $result = array_reverse(array_values($groupedData)) ;
 
         return $result;
     }
