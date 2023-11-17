@@ -70,12 +70,7 @@ class AccessRightController extends Controller
             $size = 10;
         }
 
-        $accessRight = AccessRight::query();
-        if ($data['contractorId'] ?? "") {
-            $accessRight = $accessRight->where('contractor_id', $data['contractorId']);
-        }
-
-        $accessRight = $accessRight->select(
+        $accessRight = AccessRight::query()->select(
             'contractor_id',
             'remark',
             'name',
@@ -92,6 +87,10 @@ class AccessRightController extends Controller
             'test'
             )->orderBy($column, $order);
 
+            if ($data['contractorId'] ?? "") {
+                $accessRight->where('contractor_id', $data['contractorId']);
+            }
+    
         $data = $accessRight->paginate($size);
         return $data;
     }
