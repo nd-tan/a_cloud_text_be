@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('accress_right', function (Blueprint $table) {
+        Schema::create('access_rights', function (Blueprint $table) {
             $table->id();
             $table->foreignId('contractor_id')->references('id')->on('contractors');
             $table->string('remark')->nullable();
@@ -36,6 +36,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('accress_right');
+        Schema::dropIfExists('access_rights');
     }
 };

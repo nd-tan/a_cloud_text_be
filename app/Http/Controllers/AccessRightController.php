@@ -34,6 +34,7 @@ class AccessRightController extends Controller
      */
     public function index(Request $request)
     {
+        // dd($request);
         $data = $request->only([
             'order',
             'column',
@@ -69,7 +70,12 @@ class AccessRightController extends Controller
             $size = 10;
         }
 
-        $contractor = AccessRight::query()->select(
+        $accessRight = AccessRight::query();
+        if ($data['contractorId'] ?? "") {
+            $accessRight = $accessRight->where('contractor_id', $data['contractorId']);
+        }
+
+        $accessRight = $accessRight->select(
             'contractor_id',
             'remark',
             'name',
@@ -83,13 +89,10 @@ class AccessRightController extends Controller
             'sensor',
             'account',
             'groups',
-            'test')
-            ->orderBy($column, $order);
+            'test'
+            )->orderBy($column, $order);
 
-        if ($data['contractorId'] ?? "") {
-            $data = $contractor->where('contractor_id', $data['contractorId']);
-        }
-        $data = $contractor->paginate($size);
+        $data = $accessRight->paginate($size);
         return $data;
     }
 

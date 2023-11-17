@@ -31,7 +31,7 @@ class DatabaseSeeder extends Seeder
             ]);
         }
         for($i = 0; $i <= 500; $i++) {
-            DB::table('accress_right')->insert([
+            DB::table('access_rights')->insert([
                 'contractor_id' => rand(1, 51),
                 'remark' => Str::random(10),
                 'name' => Str::random(10),

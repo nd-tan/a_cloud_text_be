@@ -9,6 +9,8 @@ class AccessRight extends Model
 {
     use HasFactory;
 
+    protected $table = "access_rights";
+
     protected $fillable = [
         'contractor_id',
         'remark',
