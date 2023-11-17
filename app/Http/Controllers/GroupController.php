@@ -254,8 +254,14 @@ class GroupController extends Controller
     public function destroy($id)
     {
         $group = Group::findOrFail($id);
-        $group->delete();
-        return $this->responseSuccess(true);
+        if($group){
+            Group::where('group_id', $group->id)->delete();
+            $group->delete();
+            return $this->responseSuccess(true);
+        } else {
+            return $this->responseSuccess("not found", 404);
+        }
+     
     }
 
     public function responseSuccess($data, $httpStatusCode = 200)
