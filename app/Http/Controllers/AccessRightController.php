@@ -87,7 +87,9 @@ class AccessRightController extends Controller
             'test'
             )->orderBy($column, $order);
 
-            if ($data['contractorId'] ?? "") {
+            if (is_null($data['contractorId'])) {
+                return [];
+            } else {
                 $accessRight->where('contractor_id', $data['contractorId']);
             }
     
