@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('groups', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('group_id')->unique()->nullable();
+            $table->bigInteger('group_id')->nullable();
             $table->integer('contractor_id');
             $table->string('name', 255);
             $table->text('path');

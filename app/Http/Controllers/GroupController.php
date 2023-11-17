@@ -50,6 +50,7 @@ class GroupController extends Controller
         }
 
         $group = Group::query()->select(
+            'id',
             'group_id',
             'contractor_id',
             'name',
@@ -205,11 +206,15 @@ class GroupController extends Controller
      */
     public function show($id)
     {
-        $group = Group::query()->where('id', $id)->first();
-        if (is_null($group)) {
-            return $this->responseError('not_found');
-        }
-        return $this->responseSuccess(['group' => $group]);
+        $group = Group::select('groups.*', 'contractors.name as contractor_name')
+        ->join('contractors', 'groups.contractor_id', '=', 'contractors.id')
+        ->where('groups.id', $id)
+        ->first();
+    if (is_null($group)) {
+        return $this->responseError('not_found');
+    }
+
+    return $this->responseSuccess($group);
     }
 
     /**
