@@ -17,7 +17,8 @@ class GroupController extends Controller
         $data = $request->only([
             'order',
             'column',
-            'size'
+            'size',
+            'contractorId'
         ]);
         $result = $this->getAll($data);
 
@@ -34,6 +35,7 @@ class GroupController extends Controller
     {
         $order = $data['order'];
         $column = $data['column'];
+        $contractorId = $data['contractorId'];
 
         if (is_null($column) || !in_array($column, ['name', 'state', 'start_date', 'end_date'])) {
             $column = 'id';
@@ -49,18 +51,15 @@ class GroupController extends Controller
         }
 
         $group = Group::query()->select(
-            'id',
+            'group_id',
+            'contractor_id',
             'name',
-            'state',
-            'start_date',
-            'end_date',
-            'address',
-            'phone_number',
-            'person',
-            'remark'
         )
             ->orderBy($column, $order);
-
+        if($contractorId != 0){
+            $group->where('contractor_id', $contractorId);
+        }
+        
         $data = $group->paginate($size);
 
         return $data;
@@ -133,7 +132,8 @@ class GroupController extends Controller
 
         $result = array_reverse(array_values($groupedData)) ;
 
-        return $result;
+        return $this->responseSuccess($result);
+
     }
 
     public function contractorGroup(Request $request)
