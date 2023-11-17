@@ -19,3 +19,4 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::resource('contractor', App\Http\Controllers\ContractorController::class);
+Route::resource('access-right', App\Http\Controllers\ContractorController::class);
