@@ -71,6 +71,7 @@ class AccessRightController extends Controller
         }
 
         $accessRight = AccessRight::query()->select(
+            'id',
             'contractor_id',
             'remark',
             'name',
