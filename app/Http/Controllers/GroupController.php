@@ -21,7 +21,6 @@ class GroupController extends Controller
             'contractorId'
         ]);
         $result = $this->getAll($data);
-
         return $this->responseSuccess($result);
     }
 
@@ -37,7 +36,7 @@ class GroupController extends Controller
         $column = $data['column'];
         $contractorId = $data['contractorId'];
 
-        if (is_null($column) || !in_array($column, ['name', 'state', 'start_date', 'end_date'])) {
+        if (is_null($column) || !in_array($column, ['id', 'name'])) {
             $column = 'id';
         }
 
@@ -54,12 +53,12 @@ class GroupController extends Controller
             'group_id',
             'contractor_id',
             'name',
-        )
-            ->orderBy($column, $order);
+        );
         if($contractorId != 0){
             $group->where('contractor_id', $contractorId);
         }
-        
+        $group->orderBy($column, $order);
+
         $data = $group->paginate($size);
 
         return $data;
