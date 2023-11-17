@@ -107,15 +107,13 @@ class GroupController extends Controller
             if(!is_null($groupParentId)){
                 if (!isset($groupedData[$contractorId]['groups'][$groupParentId])) {
                     $group = Group::find($groupParentId);
+                    $childGroup = Group::select('groups.id as group_id', 'groups.name as group_name')
+                    ->where('group_id', $groupParentId)
+                    ->get()->toArray();
                     $groupedData[$contractorId]['groups'][$groupParentId] = [
                         'group_id' => $group->id,
                         'group_name' =>  $group->name,
-                        'child_group' => [
-                            [
-                                'group_id' => $contractor['group_id'],
-                                'group_name' =>  $contractor['group_name'],
-                            ]
-                        ],
+                        'child_group' => $childGroup,
                     ];
                 }
             } else {
@@ -210,6 +208,9 @@ class GroupController extends Controller
         ->join('contractors', 'groups.contractor_id', '=', 'contractors.id')
         ->where('groups.id', $id)
         ->first();
+        if($group->group_id){
+          $group['group_parent'] = Group::find($group->group_id)?->name;
+        }
     if (is_null($group)) {
         return $this->responseError('not_found');
     }
@@ -224,13 +225,19 @@ class GroupController extends Controller
     {
         $data = $request->only([
             'name',
-            'postal_code',
-            'address',
-            'phone_number',
-            'person',
-            'logo',
-            'start_date',
-            'end_date',
+            'path',
+            'info_board',
+            'latitude',
+            'longitude',
+            'group_week',
+            'group_start_time',
+            'group_end_time',
+            'break_start_time1',
+            'break_end_time1',
+            'break_start_time2',
+            'break_end_time2',
+            'break_start_time3',
+            'break_end_time3',
             'remark',
         ]);
 
