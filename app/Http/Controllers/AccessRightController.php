@@ -105,8 +105,8 @@ class AccessRightController extends Controller
     {
         $data = $request->only([
             'contractor_id',
-            'remark',
             'name',
+            'remark',
             'access_rights',
             'dashboard',
             'data',
