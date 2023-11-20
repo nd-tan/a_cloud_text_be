@@ -72,10 +72,11 @@ class DatabaseSeeder extends Seeder
             ]);
         }
 
-        for($i = 0; $i <= 500; $i++) {
+        for($i = 1; $i <= 51; $i++) {
+           $group =  DB::table('groups')->where('contractor_id',$i)->first();
             DB::table('groups')->insert([
-                'group_id' => rand(1, 500),
-                'contractor_id' => rand(1, 51),
+                'group_id' => $group->id,
+                'contractor_id' =>  $group->contractor_id,
                 'name' => Str::random(10),
                 'path' => '',
                 'info_board' => Str::random(20),
