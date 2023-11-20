@@ -208,13 +208,13 @@ class GroupController extends Controller
         ->join('contractors', 'groups.contractor_id', '=', 'contractors.id')
         ->where('groups.id', $id)
         ->first();
-        if($group->group_id){
+        if (is_null($group)) {
+            return $this->responseError('not_found');
+        }
+
+        if(!is_null($group->group_id)){
           $group['group_parent'] = Group::find($group->group_id)?->name;
         }
-    if (is_null($group)) {
-        return $this->responseError('not_found');
-    }
-
     return $this->responseSuccess($group);
     }
 
