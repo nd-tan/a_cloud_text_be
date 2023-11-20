@@ -62,6 +62,8 @@ class GroupController extends Controller
         }
         if($groupId != 0){
             $group->where('group_id', $groupId);
+        } else {
+            $group->where('group_id', null);
         }
         $group->orderBy($column, $order);
 
@@ -110,7 +112,7 @@ class GroupController extends Controller
             $groupParentId = $contractor['group_parent_id'];
             $groupId = $contractor['group_id'];
             if(!is_null($groupParentId)){
-                if (!isset($groupedData[$contractorId]['groups'][$groupParentId])) {
+                 if (!isset($groupedData[$contractorId]['groups'][$groupParentId])) {
                     $group = Group::find($groupParentId);
                     $childGroup = Group::select('groups.id as group_id', 'groups.name as group_name')
                     ->where('group_id', $groupParentId)
