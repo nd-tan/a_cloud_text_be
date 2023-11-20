@@ -21,3 +21,4 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::resource('contractor', App\Http\Controllers\ContractorController::class);
 Route::get('contractor-all',[App\Http\Controllers\GroupController::class,"contractorAll"]);
 Route::resource('group', App\Http\Controllers\GroupController::class);
+Route::resource('access-right', App\Http\Controllers\AccessRightController::class);

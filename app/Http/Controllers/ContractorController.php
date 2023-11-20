@@ -15,7 +15,8 @@ class ContractorController extends Controller
         $data = $request->only([
             'order',
             'column',
-            'size'
+            'size',
+            'all'
         ]);
         $result = $this->getAll($data);
 
@@ -30,8 +31,8 @@ class ContractorController extends Controller
      */
     public function getAll($data)
     {
-        $order = $data['order'];
-        $column = $data['column'];
+        $order = $data['order'] ?? "";
+        $column = $data['column'] ?? "";
 
         if(is_null($column) || ! in_array($column, ['name', 'state', 'start_date', 'end_date'])){
             $column = 'id';
@@ -41,7 +42,7 @@ class ContractorController extends Controller
             $order = "desc";
         }
 
-        $size = $data['size'];
+        $size = $data['size'] ?? "";
         if (! is_numeric($size)) {
             $size = 10;
         }
@@ -57,6 +58,11 @@ class ContractorController extends Controller
                     'person',
                     'remark')
             ->orderBy($column, $order);
+
+        if ($data['all'] ?? "") {
+            $data = $contractor->get();
+            return $data;
+        }
 
         $data = $contractor->paginate($size);
 

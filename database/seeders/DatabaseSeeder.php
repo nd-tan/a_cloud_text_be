@@ -30,6 +30,24 @@ class DatabaseSeeder extends Seeder
                 'remark' => Str::random(10),
             ]);
         }
+        for($i = 0; $i <= 500; $i++) {
+            DB::table('access_rights')->insert([
+                'contractor_id' => rand(1, 51),
+                'remark' => Str::random(10),
+                'name' => Str::random(10),
+                'access_rights' => rand(0, 2),
+                'dashboard' => rand(0, 2),
+                'data' => rand(0, 2),
+                'data_export' => rand(0, 2),
+                'device' => rand(0, 2),
+                'alert' => rand(0, 2),
+                'alert_mail' => rand(0, 2),
+                'sensor' => rand(0, 2),
+                'account' => rand(0, 2),
+                'groups' => rand(0, 2),
+                'test' => rand(0, 2),
+            ]);
+        }
         // \App\Models\User::factory(10)->create();
 
         // \App\Models\User::factory()->create([
