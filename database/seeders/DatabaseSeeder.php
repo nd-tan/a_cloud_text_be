@@ -48,7 +48,7 @@ class DatabaseSeeder extends Seeder
                 'test' => rand(0, 2),
             ]);
         }
-        
+
         for($i = 0; $i <= 500; $i++) {
             DB::table('groups')->insert([
                 'group_id' => null,
@@ -91,6 +91,21 @@ class DatabaseSeeder extends Seeder
                 'break_start_time3' => date('H:i:s', rand(0, 86399)),
                 'break_end_time3' => date('H:i:s', rand(0, 86399)),
                 'remark' => Str::random(30),
+            ]);
+        }
+
+        for ($i = 1; $i <= 500; $i++) {
+            DB::table('sensors')->insert([
+                'contractor_id' => rand(1, 51),
+                'name' => 'Sensor ' . $i,
+                'maker' => 'Maker ' . $i,
+                'model_number' => 'Model ' . $i,
+                'interface' => rand(0, 2),
+                'calc' => 'Calculation ' . $i,
+                'unit' => 'Unit ' . $i,
+                'remark' => 'Remark ' . $i,
+                'created_at' => now(),
+                'updated_at' => now(),
             ]);
         }
         // \App\Models\User::factory(10)->create();
