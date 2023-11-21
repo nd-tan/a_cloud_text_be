@@ -40,7 +40,7 @@ class UserSeeder extends Seeder
                 'password' => Hash::make('12345678'),
                 'fullname' => $faker->name,
                 'role' => rand(1,3),
-                'note' => $faker->paragraph(6, true),
+                'note' => $faker->paragraph(1, true),
                 'group_id' => rand(1,50),
                 'created_at' => $faker->dateTime()->format('Y-m-d H:i:s'),
                 'updated_at' => $faker->dateTime()->format('Y-m-d H:i:s'),

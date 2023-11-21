@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -83,7 +84,15 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $user = User::create([
+            'username' => $request->get('username'),
+            'fullname' => $request->get('fullname'),
+            'password' => Hash::make($request->get('password')),
+            'role' => $request->get('role'),
+            'note' => $request->get('note'),
+            'group_id' => $request->get('group_id'),
+        ]);
+        return $this->responseSuccess($user);
     }
 
     /**
@@ -91,7 +100,16 @@ class UserController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $user = User::select('users.*', 'contractors.name as contractor_name', 'groups.name as group_name')
+            ->join('groups', 'groups.id', '=', 'users.group_id')
+            ->join('contractors', 'groups.contractor_id', '=', 'contractors.id')
+            ->where('users.id', $id)
+            ->first();
+        if (is_null($user)) {
+            return $this->responseError('not_found', 404);
+        }
+
+        return $this->responseSuccess($user);
     }
 
     /**
@@ -99,7 +117,7 @@ class UserController extends Controller
      */
     public function edit(string $id)
     {
-        //
+       //
     }
 
     /**
@@ -107,7 +125,16 @@ class UserController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $user = User::findOrFail($id);
+        $user->username = $request->get('username');
+        $user->fullname = $request->get('fullname');
+        $user->role = $request->get('role');
+        $user->note = $request->get('note');
+        if (!is_null($request->get('password'))) {
+            $user->password = Hash::make($request->get('password'));
+        }
+        $user->update();
+        return $this->responseSuccess($user);
     }
 
     /**
@@ -115,6 +142,11 @@ class UserController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $user = User::findOrFail($id);
+        if(!$user){
+            return $this->responseError("not found", 404);
+        }
+        $user->delete();
+        return $this->responseSuccess(true);
     }
 }

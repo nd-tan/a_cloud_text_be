@@ -18,7 +18,8 @@ class GroupController extends Controller
             'order',
             'column',
             'size',
-            'contractorId'
+            'contractorId',
+            'groupId',
         ]);
         $result = $this->getAll($data);
         return $this->responseSuccess($result);
@@ -35,6 +36,7 @@ class GroupController extends Controller
         $order = $data['order'];
         $column = $data['column'];
         $contractorId = $data['contractorId'];
+        $groupId = $data['groupId'];
 
         if (is_null($column) || !in_array($column, ['id', 'name'])) {
             $column = 'id';
@@ -57,6 +59,11 @@ class GroupController extends Controller
         );
         if($contractorId != 0){
             $group->where('contractor_id', $contractorId);
+        }
+        if($groupId != 0){
+            $group->where('group_id', $groupId);
+        } else {
+            $group->where('group_id', null);
         }
         $group->orderBy($column, $order);
 
@@ -105,10 +112,11 @@ class GroupController extends Controller
             $groupParentId = $contractor['group_parent_id'];
             $groupId = $contractor['group_id'];
             if(!is_null($groupParentId)){
-                if (!isset($groupedData[$contractorId]['groups'][$groupParentId])) {
+                 if (!isset($groupedData[$contractorId]['groups'][$groupParentId])) {
                     $group = Group::find($groupParentId);
                     $childGroup = Group::select('groups.id as group_id', 'groups.name as group_name')
                     ->where('group_id', $groupParentId)
+                    ->where('contractor_id', $contractorId)
                     ->get()->toArray();
                     $groupedData[$contractorId]['groups'][$groupParentId] = [
                         'group_id' => $group->id,
