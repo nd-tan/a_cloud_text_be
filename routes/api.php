@@ -23,3 +23,4 @@ Route::get('contractor-all',[App\Http\Controllers\GroupController::class,"contra
 Route::get('contractor-group',[App\Http\Controllers\GroupController::class,"contractorGroup"]);
 Route::resource('group', App\Http\Controllers\GroupController::class);
 Route::resource('access-right', App\Http\Controllers\AccessRightController::class);
+Route::resource('account', App\Http\Controllers\UserController::class);
