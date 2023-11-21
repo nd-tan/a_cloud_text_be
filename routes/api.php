@@ -24,3 +24,4 @@ Route::get('contractor-group',[App\Http\Controllers\GroupController::class,"cont
 Route::resource('group', App\Http\Controllers\GroupController::class);
 Route::resource('sensor', App\Http\Controllers\SensorController::class);
 Route::resource('access-right', App\Http\Controllers\AccessRightController::class);
+Route::resource('account', App\Http\Controllers\UserController::class);
