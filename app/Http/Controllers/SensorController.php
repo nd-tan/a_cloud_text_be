@@ -47,17 +47,13 @@ class SensorController extends Controller
             $size = 10;
         }
 
-        $sensor = Sensor::query()->select(
-            'contractor_id',
-            'name',
-            'maker',
-            'model_number',
-            'interface',
-            'calc',
-            'unit',
-            'remark',
-            'updated_ID',
-        );
+        $sensor = Sensor::select(
+        'sensors.*',
+        'contractors.name as contractor_name',
+        )
+        ->join('contractors', 'sensors.contractor_id', '=', 'contractors.id')
+        ->first();
+       
         if($contractorId != 0){
             $sensor->where('contractor_id', $contractorId);
         }
@@ -114,7 +110,6 @@ class SensorController extends Controller
     public function update(Request $request, $id)
     {
         $data = $request->only([
-            'contractor_id',
             'name',
             'maker',
             'model_number',
@@ -138,7 +133,7 @@ class SensorController extends Controller
     {
         $sensor = Sensor::findOrFail($id);
         if($sensor){
-            Sensor::where('sensor_id', $sensor->id)->delete();
+            Sensor::where('id', $sensor->id)->delete();
             $sensor->delete();
             return $this->responseSuccess(true);
         } else {
