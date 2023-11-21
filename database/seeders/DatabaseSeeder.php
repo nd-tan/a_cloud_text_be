@@ -49,7 +49,7 @@ class DatabaseSeeder extends Seeder
             ]);
         }
 
-        
+
         for($i = 0; $i <= 500; $i++) {
             DB::table('groups')->insert([
                 'group_id' => null,
@@ -73,7 +73,7 @@ class DatabaseSeeder extends Seeder
         }
 
         for($i = 1; $i <= 51; $i++) {
-           $group =  DB::table('groups')->where('contractor_id',$i)->first();
+            $group =  DB::table('groups')->where('contractor_id',$i)->first();
             DB::table('groups')->insert([
                 'group_id' => $group->id,
                 'contractor_id' =>  $group->contractor_id,
