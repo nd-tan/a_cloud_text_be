@@ -61,7 +61,7 @@ class SensorController extends Controller
         if($contractorId != 0){
             $sensor->where('contractor_id', $contractorId);
         }
-        
+
         $sensor->orderBy($column, $order);
 
         $data = $sensor->paginate($size);
@@ -144,7 +144,7 @@ class SensorController extends Controller
         } else {
             return $this->responseSuccess("not found", 404);
         }
-     
+
     }
 
     public function responseSuccess($data, $httpStatusCode = 200)
