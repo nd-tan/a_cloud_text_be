@@ -48,6 +48,7 @@ class SensorController extends Controller
         }
 
         $sensor = Sensor::query()->select(
+            'id',
             'contractor_id',
             'name',
             'maker',
@@ -138,8 +139,7 @@ class SensorController extends Controller
     {
         $sensor = Sensor::findOrFail($id);
         if($sensor){
-            Sensor::where('sensor_id', $sensor->id)->delete();
-            $sensor->delete();
+            Sensor::where('id', $sensor->id)->delete();
             return $this->responseSuccess(true);
         } else {
             return $this->responseSuccess("not found", 404);
