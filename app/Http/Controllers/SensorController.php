@@ -48,6 +48,7 @@ class SensorController extends Controller
         }
 
         $sensor = Sensor::query()->select(
+            'id',
             'contractor_id',
             'name',
             'maker',
