@@ -25,3 +25,6 @@ Route::resource('group', App\Http\Controllers\GroupController::class);
 Route::resource('sensor', App\Http\Controllers\SensorController::class);
 Route::resource('access-right', App\Http\Controllers\AccessRightController::class);
 Route::resource('account', App\Http\Controllers\UserController::class);
+Route::resource('alert', App\Http\Controllers\AlertController::class);
+
+Route::get('device-all',[App\Http\Controllers\AlertController::class,"getDataTree"]);
