@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
+use App\Http\Controllers\AlertController;
 use Illuminate\Database\Seeder;
 use Stringable;
 
@@ -21,6 +22,8 @@ class DatabaseSeeder extends Seeder
             AccessRightSeeder::class,
             GroupSeeder::class,
             SensorSeeder::class,
+            DeviceSeeder::class,
+            AlertSeeder::class,
         ]);
     }
 
