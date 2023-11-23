@@ -25,9 +25,9 @@ class AlertController extends Controller
         $order = $data['order'];
         $column = $data['column'];
         $query = json_decode($data['query']);
-        $contractorId = +$query->contractor_id;
-        $groupId = +$query->group_id;
-        $deviceId = +$query->device_id;
+        $contractorId = $query->contractor_id;
+        $groupId = $query->group_id;
+        $deviceId = $query->device_id;
         $getAll = $query->get_all;
         $searchMonth = $query->month;
         $startDate = $query->start_date;
