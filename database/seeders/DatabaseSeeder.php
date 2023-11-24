@@ -24,6 +24,8 @@ class DatabaseSeeder extends Seeder
             SensorSeeder::class,
             DeviceSeeder::class,
             AlertSeeder::class,
+            ConditionSeeder::class,
+            ConditionSensorSeeder::class,
         ]);
     }
 
