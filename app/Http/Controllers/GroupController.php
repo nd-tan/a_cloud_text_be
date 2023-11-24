@@ -18,8 +18,7 @@ class GroupController extends Controller
             'order',
             'column',
             'size',
-            'contractorId',
-            'groupId',
+            'query',
         ]);
         $result = $this->getAll($data);
         return $this->responseSuccess($result);
@@ -35,8 +34,9 @@ class GroupController extends Controller
     {
         $order = $data['order'];
         $column = $data['column'];
-        $contractorId = $data['contractorId'];
-        $groupId = $data['groupId'];
+        $query = json_decode($data['query']);
+        $contractorId = $query->contractor_id;
+        $groupId = $query->group_id;
 
         if (is_null($column) || !in_array($column, ['id', 'name'])) {
             $column = 'id';
@@ -147,7 +147,7 @@ class GroupController extends Controller
         $contractorId = $request->get('contractorId');
         $contractorgroupId = $request->get('contractorgroupId');
 
-        if ($contractorId == 'undefined') {
+        if ($contractorId == 0) {
             return $this->responseError('Contractor ID is required', 400);
         }
 
@@ -156,7 +156,7 @@ class GroupController extends Controller
             'contractors.name as contractor_name',
         );;
 
-        if ($contractorgroupId != 'undefined') {
+        if ($contractorgroupId != 0) {
             $query->leftJoin('groups', 'contractors.id', '=', 'groups.contractor_id')
                 ->where('groups.id', $contractorgroupId)
                 ->select(
