@@ -28,3 +28,4 @@ Route::resource('account', App\Http\Controllers\UserController::class);
 Route::resource('alert', App\Http\Controllers\AlertController::class);
 
 Route::get('device-all',[App\Http\Controllers\AlertController::class,"getDataTree"]);
+Route::resource('condition', App\Http\Controllers\ConditionController::class);
