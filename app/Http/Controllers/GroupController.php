@@ -147,7 +147,7 @@ class GroupController extends Controller
         $contractorId = $request->get('contractorId');
         $contractorgroupId = $request->get('contractorgroupId');
 
-        if ($contractorId == 'undefined') {
+        if ($contractorId == 0) {
             return $this->responseError('Contractor ID is required', 400);
         }
 
@@ -156,7 +156,7 @@ class GroupController extends Controller
             'contractors.name as contractor_name',
         );;
 
-        if ($contractorgroupId != 'undefined') {
+        if ($contractorgroupId != 0) {
             $query->leftJoin('groups', 'contractors.id', '=', 'groups.contractor_id')
                 ->where('groups.id', $contractorgroupId)
                 ->select(
