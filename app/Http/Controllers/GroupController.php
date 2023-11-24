@@ -18,8 +18,7 @@ class GroupController extends Controller
             'order',
             'column',
             'size',
-            'contractorId',
-            'groupId',
+            'query',
         ]);
         $result = $this->getAll($data);
         return $this->responseSuccess($result);
@@ -35,8 +34,9 @@ class GroupController extends Controller
     {
         $order = $data['order'];
         $column = $data['column'];
-        $contractorId = $data['contractorId'];
-        $groupId = $data['groupId'];
+        $query = json_decode($data['query']);
+        $contractorId = $query->contractor_id;
+        $groupId = $query->group_id;
 
         if (is_null($column) || !in_array($column, ['id', 'name'])) {
             $column = 'id';

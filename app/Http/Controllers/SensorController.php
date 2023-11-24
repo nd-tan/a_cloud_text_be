@@ -16,7 +16,7 @@ class SensorController extends Controller
             'order',
             'column',
             'size',
-            'contractorId',
+            'query',
         ]);
         $result = $this->getAll($data);
         return $this->responseSuccess($result);
@@ -32,7 +32,8 @@ class SensorController extends Controller
     {
         $order = $data['order'];
         $column = $data['column'];
-        $contractorId = $data['contractorId'];
+        $query = json_decode($data['query']);
+        $contractorId = $query->contractor_id;
 
         if (is_null($column) || !in_array($column, ['id', 'name','maker','model_number'])) {
             $column = 'id';
