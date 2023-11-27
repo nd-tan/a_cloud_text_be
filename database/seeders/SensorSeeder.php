@@ -13,6 +13,11 @@ class SensorSeeder extends Seeder
      */
     public function run(): void
     {
+        if (config('app.env') == 'production') {
+            return;
+        }
+
+        DB::table('sensors')->truncate();
         for ($i = 1; $i <= 500; $i++) {
             DB::table('sensors')->insert([
                 'contractor_id' => rand(1, 51),

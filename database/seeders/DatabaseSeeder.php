@@ -26,6 +26,7 @@ class DatabaseSeeder extends Seeder
             AlertSeeder::class,
             ConditionSeeder::class,
             ConditionSensorSeeder::class,
+            ReceiveDataSeeder::class,
         ]);
     }
 

@@ -15,6 +15,11 @@ class ContractorSeeder extends Seeder
      */
     public function run(): void
     {
+        if (config('app.env') == 'production') {
+            return;
+        }
+
+        DB::table('contractors')->truncate();
         for($i = 0; $i <= 50; $i++) {
             DB::table('contractors')->insert([
                 'name' => Str::random(10),
