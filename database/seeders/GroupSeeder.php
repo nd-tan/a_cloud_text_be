@@ -14,6 +14,11 @@ class GroupSeeder extends Seeder
      */
     public function run(): void
     {
+        if (config('app.env') == 'production') {
+            return;
+        }
+
+        DB::table('groups')->truncate();
         for($i = 0; $i <= 500; $i++) {
             DB::table('groups')->insert([
                 'group_id' => null,

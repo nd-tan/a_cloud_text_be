@@ -14,6 +14,11 @@ class AccessRightSeeder extends Seeder
      */
     public function run(): void
     {
+        if (config('app.env') == 'production') {
+            return;
+        }
+
+        DB::table('access_rights')->truncate();
         for($i = 0; $i <= 500; $i++) {
             DB::table('access_rights')->insert([
                 'contractor_id' => rand(1, 51),
