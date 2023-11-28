@@ -18,7 +18,8 @@ class AccessRightSeeder extends Seeder
             return;
         }
 
-        DB::table('access_rights')->truncate();
+        // DB::table('access_rights')->truncate();
+        DB::table('access_rights')->delete();
         for($i = 0; $i <= 500; $i++) {
             DB::table('access_rights')->insert([
                 'contractor_id' => rand(1, 51),
