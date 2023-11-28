@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\ReceiveData;
+use App\Models\Sensor;
+use App\Models\SensorPort;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -66,7 +68,7 @@ class ReceiveDataController extends Controller
         } elseif (!is_null($groupId)) {
             $receiveData = $receiveData->where('group_id', $contractorId);
         } elseif (!is_null($deviceId)) {
-            $receiveData = $receiveData->where('device', $deviceId);
+            $receiveData = $receiveData->where('device_id', $deviceId);
         } elseif (is_null($contractorId) && is_null($groupId) && is_null($deviceId)) {
             $receiveData = $receiveData->where('contractor_id', null);
         }

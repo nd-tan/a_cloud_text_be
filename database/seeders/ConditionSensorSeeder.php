@@ -22,7 +22,7 @@ class ConditionSensorSeeder extends Seeder
         $limit = 100;
 
         DB::table('condition_sensor')->truncate();
-        for ($i = 2; $i <= $limit; $i++) {
+        for ($i = 1; $i <= $limit; $i++) {
             DB::table('condition_sensor')->insert([
                 'condition_id' => rand(1, 100),
                 'sensor_port_id' => rand(1, 50),

@@ -22,7 +22,7 @@ class DeviceSeeder extends Seeder
         $limit = 100;
 
         DB::table('devices')->truncate();
-        for ($i = 2; $i <= $limit; $i++) {
+        for ($i = 1; $i <= $limit; $i++) {
             $contractorId = rand(1, 50);
             DB::table('devices')->insert([
                 'device_string' => $faker->firstName,

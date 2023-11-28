@@ -18,7 +18,7 @@ class SensorSeeder extends Seeder
         }
 
         DB::table('sensors')->truncate();
-        for ($i = 1; $i <= 500; $i++) {
+        for ($i = 1; $i <= 100; $i++) {
             DB::table('sensors')->insert([
                 'contractor_id' => rand(1, 51),
                 'name' => 'Sensor ' . $i,

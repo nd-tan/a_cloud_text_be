@@ -27,6 +27,7 @@ class DatabaseSeeder extends Seeder
             ConditionSeeder::class,
             ConditionSensorSeeder::class,
             ReceiveDataSeeder::class,
+            SensorPortSeeder::class,
         ]);
     }
 

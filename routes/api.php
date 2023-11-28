@@ -30,3 +30,4 @@ Route::resource('alert', App\Http\Controllers\AlertController::class);
 Route::get('device-all',[App\Http\Controllers\AlertController::class,"getDataTree"]);
 Route::resource('condition', App\Http\Controllers\ConditionController::class);
 Route::resource('receive-data', App\Http\Controllers\ReceiveDataController::class);
+Route::get('sensor-port/by-sensor-and-device', [App\Http\Controllers\SensorPortController::class,"index"]);

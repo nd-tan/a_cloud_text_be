@@ -22,7 +22,7 @@ class ReceiveDataSeeder extends Seeder
         $limit = 1000;
 
         DB::table('receive_data')->truncate();
-        for ($i = 2; $i <= $limit; $i++) {
+        for ($i = 1; $i <= $limit; $i++) {
             DB::table('receive_data')->insert([
                 'device_id' => rand(1, 100),
                 'device_name' => $faker->firstName,
