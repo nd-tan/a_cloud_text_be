@@ -22,7 +22,7 @@ class ConditionSeeder extends Seeder
         $limit = 100;
 
         DB::table('conditions')->truncate();
-        for ($i = 2; $i <= $limit; $i++) {
+        for ($i = 1; $i <= $limit; $i++) {
             DB::table('conditions')->insert([
                 'name' => $faker->firstName,
                 'condition' => rand(1,3),

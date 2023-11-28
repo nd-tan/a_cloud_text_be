@@ -22,7 +22,7 @@ class AlertSeeder extends Seeder
         $limit = 100;
 
         DB::table('alerts')->truncate();
-        for ($i = 2; $i <= $limit; $i++) {
+        for ($i = 1; $i <= $limit; $i++) {
             DB::table('alerts')->insert([
                 'name' => $faker->firstName,
                 'status' => rand(0,1),
