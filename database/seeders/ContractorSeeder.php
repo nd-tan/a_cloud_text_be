@@ -19,7 +19,8 @@ class ContractorSeeder extends Seeder
             return;
         }
 
-        DB::table('contractors')->truncate();
+        // DB::table('contractors')->truncate();
+        DB::table('contractors')->delete();
         for($i = 0; $i <= 50; $i++) {
             DB::table('contractors')->insert([
                 'name' => Str::random(10),
