@@ -62,8 +62,9 @@ class GroupController extends Controller
         }
         if($groupId != 0){
             $group->where('group_id', $groupId);
-        } else {
-            $group->where('group_id', null);
+        }
+        if($contractorId == 0 && $groupId == 0){
+            return [];
         }
         $group->orderBy($column, $order);
 
