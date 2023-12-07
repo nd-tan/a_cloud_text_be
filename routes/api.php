@@ -31,3 +31,4 @@ Route::get('device-all',[App\Http\Controllers\AlertController::class,"getDataTre
 Route::resource('condition', App\Http\Controllers\ConditionController::class);
 Route::resource('receive-data', App\Http\Controllers\ReceiveDataController::class);
 Route::get('sensor-port/by-sensor-and-device', [App\Http\Controllers\SensorPortController::class,"index"]);
+Route::get('list-role', [App\Http\Controllers\AccessRightController::class,"listRole"]);

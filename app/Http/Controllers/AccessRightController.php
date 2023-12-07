@@ -174,4 +174,26 @@ class AccessRightController extends Controller
         $accessRight->delete();
         return $this->responseSuccess(true);
     }
+
+    /**
+     * list role before login
+     */
+    public function listRole() {
+        $data = (object) [
+            "is_sa" => 1,
+            "is_ca" => 1,
+            "access_rights" => 1,
+            "dashboard" => 1,
+            "data" => 2,
+            "data_export" => 2,
+            "device" => 1,
+            "alert" => 1,
+            "alert_mail" => 2,
+            "sensor" => 1,
+            "account" => 2,
+            "groups" => 0,
+            "test" => 0,
+        ];
+        return $this->responseSuccess($data);
+    }
 }
