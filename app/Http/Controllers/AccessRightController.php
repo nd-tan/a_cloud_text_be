@@ -180,9 +180,9 @@ class AccessRightController extends Controller
      */
     public function listRole() {
         $data = (object) [
-            "is_sa" => 1,
-            "is_ca" => 1,
-            "access_rights" => 1,
+            "is_sa" => 0,
+            "is_ca" => 0,
+            "access_rights" => 2,
             "dashboard" => 1,
             "data" => 2,
             "data_export" => 2,
@@ -194,6 +194,7 @@ class AccessRightController extends Controller
             "groups" => 0,
             "test" => 0,
         ];
+        sleep(5);
         return $this->responseSuccess($data);
     }
 }
