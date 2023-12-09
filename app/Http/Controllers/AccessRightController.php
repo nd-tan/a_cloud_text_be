@@ -180,7 +180,7 @@ class AccessRightController extends Controller
      */
     public function listRole() {
         $data = (object) [
-            "is_sa" => 0,
+            "is_sa" => 1,
             "is_ca" => 0,
             "access_rights" => 2,
             "dashboard" => 1,

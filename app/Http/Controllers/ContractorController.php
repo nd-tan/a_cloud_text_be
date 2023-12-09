@@ -19,7 +19,7 @@ class ContractorController extends Controller
             'all'
         ]);
         $result = $this->getAll($data);
-
+        sleep(5);
         return $this->responseSuccess($result);
     }
 
